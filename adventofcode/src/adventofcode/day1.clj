@@ -102,9 +102,14 @@
             79677
             94858])
 
-(defn calc-fuel [mass]
-  (int (Math/floor (- (/ mass 3.0) 2))))
+(defn calc-fuel [module-mass]
+  (int (Math/floor (- (/ module-mass 3.0) 2))))
+
+(defn calc-extra-fuel [fuel-of-module]
+  (if (<= fuel-of-module 0)
+    0
+    (+ fuel-of-module (calc-extra-fuel (calc-fuel fuel-of-module)))))
 
 (defn -main
   []
-  (prn (reduce + (map calc-fuel input))))
+  (prn (reduce + (map calc-extra-fuel (map calc-fuel input)))))
